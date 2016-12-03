@@ -18,6 +18,9 @@
  * Write a paragraph about your project
  * Write docs on how to get the project running
  * Write docs on how to connect to the server
+* test your code
+  * ensure that all of your methods have test coverage
+  * write tests which start your server, send and receive, and confirm functionality
 
 ## Directions
 * Create a TCP Server use using the net module
