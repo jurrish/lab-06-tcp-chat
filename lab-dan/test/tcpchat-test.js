@@ -25,7 +25,7 @@ describe('this is my server', function() {
     server.start(chatClient, done);
   });
   describe('server should be running', function () {
-    expect(server.listening).to.be.true;
+    expect(server.server.listening).to.be.true;
   });
   // describe('it should send the default message', function (done) {
   //   let testClient = net.connect({port: 3000}, function () {

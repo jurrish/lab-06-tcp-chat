@@ -5,12 +5,14 @@ const EE = require('events');
 
 const PORT = process.env.PORT || 3000;
 
+let server = undefined;
+
 function start (chatClient, cb) {
   let pool = [];
-  const server = net.createServer;
   const ee = new EE();
 
-  server(function() {
+  server = net.createServer(function() {
+    console.log('server function started');
     ee.on('default', function (client) {
       client.socket.write('not a command');
     });
@@ -33,3 +35,6 @@ function start (chatClient, cb) {
 }
 
 exports.start = start;
+exports.server = server;
+
+console.log('server module loaded');
