@@ -4,6 +4,7 @@ const net = require('net');
 
 const client = new net.Socket();
 
+//My foolproof method of testing that I've used for years
 client.connect( { host: '127.0.0.1', port: 43593 }, function() {
   console.log('Connected to server.');
   setTimeout(function() {
