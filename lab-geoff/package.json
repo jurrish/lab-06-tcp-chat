@@ -12,6 +12,7 @@
   "author": "geoffrey cox",
   "license": "ISC",
   "devDependencies": {
+    "gulp": "^3.9.1",
     "mocha": "^3.2.0"
   }
 }
