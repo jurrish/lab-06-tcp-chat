@@ -11,7 +11,6 @@ let PORT = process.env.PORT || 3000;
 server.on('error', (err) => {
   console.log(err);
 });
-
 server.listen(PORT, () => {
   console.log('listening on ' + PORT);
 });
