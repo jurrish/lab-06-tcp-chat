@@ -28,12 +28,22 @@ ee.on('\\dm', function(client, string) {
 
 ee.on('\\all', function(client, string) {
   pool.forEach( c => {
-    c.socket.write(`${client.nickname} ` + string);
+    c.socket.write(`${client.nickname}: ` + string);
+  });
+});
+
+ee.on('\\quit', function(client, string) {
+  let i = pool.indexOf(client);
+  pool[i].socket.end();
+  if (i != -1) pool.splice(i, 1);
+  // let pool = pool.filter(clients => clients !== client);
+  pool.forEach( c => {
+    c.socket.write(`${client.nickname} has left the room.`);
   });
 });
 
 ee.on('default', function(client, string) {
-  client.socket.write('not a command');
+  client.socket.write('not a command\n');
 });
 
 server.on('connection', function(socket) {
@@ -49,16 +59,17 @@ server.on('connection', function(socket) {
     }
 
     ee.emit('default', client, data.toString());
-
   });
-});
 
-server.on('close', function(socket) {
-  // remove socket from client pool
-});
+  socket.on('close', function(data) {
+    ee.emit('quit', client, data.toString());
+    console.log('socket closed');
+  });
 
-server.on('error', function(socket) {
-  // throw error to server
+  socket.on('error', function(err) {
+    console.log('Error: ', err);
+  });
+
 });
 
 server.listen(PORT, function() {
