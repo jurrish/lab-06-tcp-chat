@@ -4,12 +4,10 @@
 
 let uuid = require('node-uuid');
 
-function Client() {
-  let arr = new Array(32);
-  let id = uuid.unparse(uuid.v1(null, arr, 0));
-  console.log(id);
-  //uuid
-  //nick name
-}
+let Client = module.exports = function() {
+  this.id = uuid.v4();
+  this.nickName = 'guest-' + (Math.random());
+};
 
-Client();
+let person = new Client();
+console.log(person);
