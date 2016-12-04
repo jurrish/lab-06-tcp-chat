@@ -68,6 +68,10 @@ function handleCommand(client, command, args) {
     }
     break;
   case 'dm': {
+    if (args[0].toLowerCase() == client.nick.toLowerCase()) {
+      client.socket.write('How lonely are you to be dming yourself?');
+      break;
+    }
     let target = getClientByNick(args[0]);
     let message = '';
     for (let i = 1;i < args.length;i++) {
