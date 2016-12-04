@@ -8,6 +8,3 @@ let Client = module.exports = function() {
   this.id = uuid.v4();
   this.nickName = 'guest-' + (Math.random());
 };
-
-let person = new Client();
-console.log(person);
