@@ -18,7 +18,6 @@ function Client(conn) {
   });
   conn.on('error', handleError);
   clients.push(this);
-  sendPublic(this.nick + ' connected.');
 }
 
 Client.prototype.decode = function(data) {
@@ -54,7 +53,6 @@ function sendPublic(message, exclude) {
     if (client.nick != exclude)
       client.socket.write(message);
   });
-  console.log(message);
 }
 
 function handleCommand(client, command, args) {
@@ -75,7 +73,7 @@ function handleCommand(client, command, args) {
     let target = getClientByNick(args[0]);
     let message = '';
     for (let i = 1;i < args.length;i++) {
-      message += args[i];
+      message += args[i] + ((i >= args.length-1) ? '' : ' ');
     }
     if (target) {
       target.socket.write(client.nick + '->me: ' + message);
@@ -88,7 +86,7 @@ function handleCommand(client, command, args) {
   case 'all': {
     let message = '';
     for (let i = 0;i < args.length;i++) {
-      message += args[i];
+      message += args[i] + ((i >= args.length-1) ? '' : ' ');
     }
     sendPublic('Broadcast: ' + message);
   }
