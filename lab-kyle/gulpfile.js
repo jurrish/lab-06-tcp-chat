@@ -5,10 +5,11 @@ const lint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 
 gulp.task('test', function() {
-  // run mocha
+  gulp.src('./test/test-server.js', {read: false})
+  .pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.tast('lint', function() {
+gulp.task('lint', function() {
   // run eslint
 });
 
