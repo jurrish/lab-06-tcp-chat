@@ -1,0 +1,17 @@
+{
+  "name": "lab-06-geoff",
+  "version": "1.0.0",
+  "description": "Lab 06 assignment. Create a tcp chat server.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "geoffrey cox",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  }
+}
