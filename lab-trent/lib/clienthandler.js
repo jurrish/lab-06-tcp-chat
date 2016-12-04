@@ -9,42 +9,92 @@ function Client(conn) {
   this.uuid = uuid();
   this.ip = conn.remoteAddress;
   this.socket = conn;
-  conn.on('data', this.decode);
-  conn.on('close', this.finish);
+  conn.on('data', (data) => {
+    this.decode(data);
+  });
+  conn.on('close', () => {
+    clients.splice(clients.indexOf(this));
+    sendPublic(this.nick + ' disconnected.', this.nick);
+  });
   conn.on('error', handleError);
   clients.push(this);
+  sendPublic(this.nick + ' connected.');
 }
 
 Client.prototype.decode = function(data) {
   let message = data.toString();
   if (message.startsWith('/')) {
-    let args = message.split(' ');
-    handleCommand(args[0], args.slice(1, args.length));
+    let args = message.replace('/', '').split(' ');
+    handleCommand(this, args[0], args.slice(1, args.length));
   } else {
     sendPublic(this.nick + ': ' + message);
   }
 };
 
-Client.prototype.finish = function() {
-  sendPublic(this.nick + ' disconnected.');
-  clients.slice(clients.indexOf(this));
-};
-
-function sendPublic(message) {
+function nickExists(nick) {
   clients.forEach(function(client) {
-    client.socket.write(message);
+    if (client.nick.toLowerCase() == nick.toLowerCase()) {
+      return true;
+    }
   });
+  return false;
 }
 
-function handleCommand(command, args) {
+function getClientByNick(nick) {
+  for (let i = 0;i < clients.length;i++) {
+    if (clients[i] && clients[i].nick.toLowerCase() == nick.toLowerCase()) {
+      return clients[i];
+    }
+  }
+  return null;
+}
+
+function sendPublic(message, exclude) {
+  clients.forEach(function(client) {
+    if (client.nick != exclude)
+      client.socket.write(message);
+  });
+  console.log(message);
+}
+
+function handleCommand(client, command, args) {
   switch(command) {
-  case '':
+  case 'nick':
+    if (nickExists(args[0])) {
+      client.socket.write('Nickname is already being used at the moment.');
+    } else {
+      client.nick = args[0];
+      client.socket.write('You changed your nickname to ' + args[0]);
+    }
+    break;
+  case 'dm': {
+    let target = getClientByNick(args[0]);
+    let message = '';
+    for (let i = 1;i < args.length;i++) {
+      message += args[i];
+    }
+    if (target) {
+      target.socket.write(client.nick + '->me: ' + message);
+      client.socket.write('you->' + target.nick + ': ' + message);
+    } else {
+      client.socket.write('Couldn\'t find user by the name ' + args[0]);
+    }
+  }
+    break;
+  case 'all': {
+    let message = '';
+    for (let i = 0;i < args.length;i++) {
+      message += args[i];
+    }
+    sendPublic('Broadcast: ' + message);
+  }
     break;
   }
 }
 
 function handleError(err) {
-  console.log(err);
+  if (err.code != 'ECONNRESET')
+    console.log(err);
 }
 
 module.exports = {
