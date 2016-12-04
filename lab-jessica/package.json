@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jessicamvs/lab-06-tcp-chat/issues"
   },
-  "homepage": "https://github.com/jessicamvs/lab-06-tcp-chat#readme"
+  "homepage": "https://github.com/jessicamvs/lab-06-tcp-chat#readme",
+  "dependencies": {
+    "node-uuid": "^1.4.7"
+  }
 }
