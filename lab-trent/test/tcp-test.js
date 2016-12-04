@@ -35,6 +35,15 @@ describe('Client', function() {
         client.write('/nick rick');
       });
     });
+    describe('/dm', function() {
+      it('shouldn\'t find a user because we are the only one connected', function(done) {
+        client.once('data', function(data) {
+          assert.equal(data.toString(), 'Couldn\'t find user by the name bobby');
+          done();
+        });
+        client.write('/dm bobby hi!');
+      });
+    });
     describe('/all', function() {
       it('should broadcast a message to everyone', function(done) {
         client.once('data', function(data) {
