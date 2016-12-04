@@ -13,5 +13,3 @@ module.exports = (socket) => {
     id: uuid.v4()
   };
 };
-
-console.log('chat client module loaded');

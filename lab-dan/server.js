@@ -17,6 +17,7 @@ function start (chatClient, cb) {
       client.socket.write('not a command');
     });
   });
+
   server.on('connection', function (socket) {
     let client = chatClient(socket);
     pool.push(client);
@@ -27,7 +28,7 @@ function start (chatClient, cb) {
 
   server.listen(PORT, function() {
     console.log('server started on', PORT);
-    if (cb) {
+    if(cb) {
       cb();
     }
   });
@@ -35,5 +36,3 @@ function start (chatClient, cb) {
 
 exports.start = start;
 exports.server = server;
-
-console.log('server module loaded');
