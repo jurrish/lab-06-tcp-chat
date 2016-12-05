@@ -24,13 +24,11 @@ ee.on('\\nick', function(client, string){
 ee.on('\\dm', function(client, string){
   let nickname = string.split(' ').shift().trim();
   let message = string.split(' ').slice(1).join(' ').trim();
-
   pool.forEach( c => {
     if (c.nickname === nickname){
       c.socket.write(`${client.nickname}: ${message}`);
     }
   });
-
 });
 
 ee.on('\\all', function(client, string){
@@ -63,7 +61,11 @@ server.on('connection', function(socket){
     });
 
     socket.on('close', function() {
+      var clientInd = pool.indexOf(client);
+      pool.splice(clientInd, 1);
+      socket.destroy();
       console.log('socket disconnected');
+      console.log(socket.destroyed);
     });
   });
 });
