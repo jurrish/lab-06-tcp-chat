@@ -9,12 +9,6 @@ let pool = [];
 
 const server = net.createServer();
 
-
-// When a socket emits the error event the error should be logged on the server
-
-// when a user speaks their nickname should be printed
-// i.e. teapot: Sup Hacker?
-
 ee.on('\\nick', function(client, string){
   client.nickname = string.trim();
   console.log(client.nickname);
@@ -46,12 +40,12 @@ ee.on('default', function(client, string) {
 });
 
 server.on('connection', function(socket) {
-  console.log('WE ARE CONNECTED YAY');
+  console.log('WE ARE CONNECTED YAY: mssg from server.js');
   const client = new Client(socket);
   pool.push(client);
 
   socket.on('data', function(data) {
-    console.log(data);
+    console.log('data', data.toString());
     const command = data.toString().split(' ').shift().trim();
 
     if(command.startsWith('\\')) {
@@ -77,10 +71,12 @@ server.on('connection', function(socket) {
     console.log(err);
   });
 
-  socket.emit('error', err);
+  // socket.emit('error', err);
 
 });
 
 server.listen(PORT, function(){
   console.log('server running on port', PORT);
 });
+
+module.exports = server;
