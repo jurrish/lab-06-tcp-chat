@@ -1,6 +1,57 @@
-const assert = require('assert');
-const server = require('../lib/server.js');
-const net = require('net');
+// const assert = require('assert');
+// const server = require('../lib/server.js'); //we have a server listening for a connection
+// const net = require('net');
+//
+// describe('Server Module', function() {
+//   bef
+//
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // describe('Server', function() {
 //
