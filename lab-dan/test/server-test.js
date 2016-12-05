@@ -6,9 +6,11 @@ const server = require('../server');
 const expect = require('chai').expect;
 
 describe('this is my server module', function() {
-  let serverRunning = true;
+  let serverRunning = false;
   before(function(){
-    server.start(chatClient);
+    server.start(chatClient, function(server) {
+      serverRunning = server.listening;
+    });
   });
   describe('starting server', function () {
     it('should be running', function () {
