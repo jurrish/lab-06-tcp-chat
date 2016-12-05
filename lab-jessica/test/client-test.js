@@ -13,16 +13,16 @@ describe('Client Module', function() {
       assert.strictEqual(true, clientExists());
     });
 
-    // it('client has properties socket, nickname, and id', function() {
-    //   const clientPropsExist = function() {
-    //     const client = new Client();
-    //     console.log(client);
-    //     if(client.hasProperty(socket) && client.hasProperty(nickname) && client.hasProperty(id)) {
-    //       return true;
-    //     }
-    //   };
-    //   assert.strictEqual(true, clientPropsExist());
-    // });
+    it('client has properties socket, nickname, and id', function() {
+      const clientPropsExist = function() {
+        const client = new Client();
+        console.log(client);
+        if(client.hasOwnProperty('socket') && client.hasOwnProperty('nickname') && client.hasOwnProperty('id')) {
+          return true;
+        }
+      };
+      assert.strictEqual(true, clientPropsExist());
+    });
 
   });
 });
