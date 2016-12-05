@@ -9,3 +9,5 @@ const Client = module.exports = function(socket) {
   this.nickname = `user_${Math.random()}`;
   this.id = uuid.v4();
 };
+
+module.exports = Client;
