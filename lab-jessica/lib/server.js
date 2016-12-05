@@ -35,7 +35,7 @@ ee.on('\\all', function(client, string){
   });
 });
 
-ee.on('default', function(client, string) {
+ee.on('default', function(client) {
   client.socket.write('not a command');
 });
 
