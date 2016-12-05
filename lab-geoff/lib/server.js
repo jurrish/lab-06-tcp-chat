@@ -10,19 +10,19 @@ let PORT = process.env.PORT || 3000;
 let users = [];
 
 
-ee.on('\\all', (user, string) => {
+ee.on('\\all', function(user, string) {
   console.log('all');
   users.forEach(u => {
     u.socket.write(user.nickName + ' : ' + string);
   });
 });
 
-ee.on('\\nick', (user, string) => {
+ee.on('\\nick', function(user, string) {
   console.log('nick');
   user.nickName = string.trim();
 });
 
-ee.on('\\dm', (user, string) => {
+ee.on('\\dm', function(user, string) {
   console.log('dm');
   let nickname = string.split(' ').shift().trim();
   let message = string.split(' ').slice(1).join(' ').trim();
@@ -33,18 +33,20 @@ ee.on('\\dm', (user, string) => {
   });
 });
 
-ee.on('default', (user) => {
+ee.on('default', function(user) {
   console.log('default');
   user.socket.write('default: no command entered');
 });
 
-server.on('error', (err) => {
+server.on('error', function(err) {
   console.log(err);
 });
 
-server.on('connection', (socket) => {
-  let user = new Client();
+server.on('connection', function(socket) {
+  let user = new Client(socket);
   users.push(user);
+  console.log(user);
+  console.log(users);
   socket.on('data', (data) => {
     let command = data.toString().split(' ').shift().trim();
     if (command.startsWith('\\')) {
@@ -55,6 +57,6 @@ server.on('connection', (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, function() {
   console.log('listening on ' + PORT);
 });

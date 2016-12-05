@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "gulpTest": "gulp test"
+    "gulp": "gulpfile"
   },
   "author": "geoffrey cox",
   "license": "ISC",
