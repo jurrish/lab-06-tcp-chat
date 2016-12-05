@@ -13,14 +13,19 @@ let PORT = process.env.PORT || 3000;
 
 //modlue constants
 let pool = [];
-let server = net.createServer();
+let server = module.exports = net.createServer();
 let ee = new EE();
 
-ee.on('\\nick', function(client, string) {
-  client.nickname = string.trim();
-});
+ee.on('\\nick', nickname);
 
-ee.on('\\dm', function(client, string){
+function nickname(client, string) {
+  return client.nickname = string.trim();
+}
+exports.nickname = nickname;
+
+ee.on('\\dm', direct);
+
+direct = function(client, string){
   let nickname = string.split(' ').shift().trim();
   let message = string.split(' ').slice(1).join(' ').trim();
 
@@ -29,20 +34,28 @@ ee.on('\\dm', function(client, string){
       c.socket.write(`${client.nickname}: ${message}`);
     }
   });
-});
+};
 
 ee.on('\\all', function(client, string){
-  pool.forEach(c => {
-    c.socket.write(`${client.nickname}: ${string}`);
-  });
+  results = everyone(pool, string);
+  pool.forEach( c => {
+    c.socket.write(results[i]);
+  },i);
 });
+
+everyone = function(pool, string){
+  pool.map(c => {
+    return `${client.nickname}: ${string}`;
+  });
+
+  module.exports.everyone = everyone;
 
 ee.on('default', function(client, string){
   client.socket.write('not a command');
 });
 
 ee.on('\\error', function(client){
-  client.socket.emit('error', 'This is an error!')
+  client.socket.emit('error', 'This is an error!');
 });
 
 //modlue logic
