@@ -10,25 +10,23 @@ let ee = new EE();
 
 let server = net.createServer(function(client) {
   console.log('client connected');
-  console.log('users');
-  console.log(users);
   client.on('end', function() {
     console.log('client disconnected');
   });
 });
 
 
-ee.on('/all', function(user, string) {
-  console.log('all');
+ee.on('/all', function(user, string) { //works
+  console.log('all event');
   users.forEach(u => {
-    u.socket.write(user.nickName + ' : ' + string);
+    u.socket.write(user.nickName + ' : ' + string); //, instead of spaces
   });
 });
 
-ee.on('/nick', function(user, string) {
-  console.log('nick');
+ee.on('/nick', function(user, string) { //works
+  console.log('string is ->  ' + string);
   user.nickName = string.trim();
-  console.log(user.nickName);
+  console.log('new nick is ' + user.nickName);
 });
 //
 // ee.on('/dm', function(user, string) { //dm not working
@@ -44,12 +42,12 @@ ee.on('/nick', function(user, string) {
 //   });
 // });
 
-ee.on('default', function(user) {
-  console.log('default');
+ee.on('default', function(user) { //works, should probably change though
+  console.log('default event');
   user.socket.write('default: no command entered');
 });
 
-server.on('error', function(err) {
+server.on('error', function(err) { //not sure
   console.log(err);
 });
 
@@ -57,12 +55,9 @@ server.on('connection', function(connection) {
   let user = new Client(connection);
   users.push(user);
   connection.on('data', function(data) {
-    console.log(data);
     let command = data.toString().split(' ').shift().trim();
-    console.log(data.toString().split(' ').slice(1).join());
-    console.log(command);
     if (command.startsWith('/')) {
-      ee.emit(command, user, data.toString().split(' ').slice(1).join());
+      ee.emit(command, user, data.toString().split(' ').slice(1).join(' '));
       return;
     }
     ee.emit('default', user, data.toString());
