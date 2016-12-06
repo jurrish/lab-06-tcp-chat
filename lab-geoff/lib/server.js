@@ -9,11 +9,13 @@ let users = [];
 let ee = new EE();
 
 let server = net.createServer(function(client) {
-  console.log('client connected');
-  client.on('end', function() {
-    console.log('client disconnected');
-  });
+  // console.log('client connected');
+  // client.on('end', function() {
+  //   console.log('client disconnected');
+  //   // console.log(this);
+  // });
 });
+
 
 
 ee.on('/all', function(user, string) { //works
@@ -49,11 +51,18 @@ ee.on('default', function(user) { //works, should probably change though
 
 server.on('error', function(err) { //not sure
   console.log(err);
+  console.log('server error!!!!!!!!!!');
 });
 
 server.on('connection', function(connection) {
   let user = new Client(connection);
   users.push(user);
+  let index = users.indexOf(user);
+  connection.on('end', function() {
+    console.log(user.nickName + ' has disonnected');
+    users.splice(index);
+    console.log(users);
+  });
   connection.on('data', function(data) {
     let command = data.toString().split(' ').shift().trim();
     if (command.startsWith('/')) {
