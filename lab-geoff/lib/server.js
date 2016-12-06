@@ -51,7 +51,7 @@ ee.on('default', function(user) { //works, should probably change though
 
 server.on('error', function(err) { //not sure
   console.log(err);
-  console.log('server error!!!!!!!!!!');
+  console.log('server error');
 });
 
 server.on('connection', function(connection) {
@@ -59,10 +59,18 @@ server.on('connection', function(connection) {
   users.push(user);
   let index = users.indexOf(user);
   connection.on('end', function() {
-    console.log(user.nickName + ' has disonnected');
-    users.splice(index);
+    users.splice(index); //this may empty out the array sometimes
+    users.forEach(function(u) {
+      u.socket.write(user.nickName + ' has disconnected');
+    });
     console.log(users);
   });
+
+  connection.on('error', function(err) {
+    console.log(err);
+    console.log('client error event'); //replace later
+  });
+
   connection.on('data', function(data) {
     let command = data.toString().split(' ').shift().trim();
     if (command.startsWith('/')) {
