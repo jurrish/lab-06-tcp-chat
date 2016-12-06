@@ -10,6 +10,8 @@ let ee = new EE();
 
 let server = net.createServer(function(client) {
   console.log('client connected');
+  console.log('users');
+  console.log(users);
   client.on('end', function() {
     console.log('client disconnected');
   });
@@ -28,19 +30,19 @@ ee.on('/nick', function(user, string) {
   user.nickName = string.trim();
   console.log(user.nickName);
 });
-
-ee.on('/dm', function(user, string) {
-  console.log('dm');
-  let nickname = string.split(' ').shift().trim();
-  console.log(nickname);
-  let message = string.split(' ').slice(1).join(' ').trim();
-  console.log(message);
-  users.forEach(function(u) {
-    if (u.nickName === nickname) {
-      u.socket.write(user.nickName + ' : ' + message);
-    }
-  });
-});
+//
+// ee.on('/dm', function(user, string) { //dm not working
+//   console.log('dm');
+//   let nickname = string.split(' ').shift().trim();
+//   console.log(nickname);
+//   let message = string.split(' ').slice(1).join(' ').trim();
+//   console.log(message);
+//   users.forEach(function(u) {
+//     if (u.nickName === nickname) {
+//       u.socket.write(user.nickName + ' : ' + message);
+//     }
+//   });
+// });
 
 ee.on('default', function(user) {
   console.log('default');
@@ -55,6 +57,7 @@ server.on('connection', function(connection) {
   let user = new Client(connection);
   users.push(user);
   connection.on('data', function(data) {
+    console.log(data);
     let command = data.toString().split(' ').shift().trim();
     console.log(data.toString().split(' ').slice(1).join());
     console.log(command);
