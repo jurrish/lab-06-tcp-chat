@@ -19,7 +19,7 @@ let server = net.createServer(function(client) {
 ee.on('/all', function(user, string) { //works
   console.log('all event');
   users.forEach(u => {
-    u.socket.write(user.nickName + ' : ' + string); //, instead of spaces
+    u.socket.write(user.nickName + ' : ' + string);
   });
 });
 
