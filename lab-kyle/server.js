@@ -14,6 +14,7 @@ const ee = new EE();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ee.on('\\nick', function(client, string) {
   client.nickname = string.trim();
+  c.socket.write(`You changed your nickname to ${client.nickname}`)
 });
 
 ee.on('\\dm', function(client, string) {
@@ -34,9 +35,9 @@ ee.on('\\all', function(client, string) {
 });
 
 ee.on('\\quit', function(client) {
-  let i = pool.indexOf(client);
+  let i = pool.slice(pool.indexOf(client));
   pool[i].socket.end();
-  if (i != -1) pool.splice(i, 1);
+  // if (i != -1) pool.splice(i, 1);
   // let pool = pool.filter(clients => clients !== client);
   pool.forEach( c => {
     c.socket.write(`${client.nickname} has left the room.`);

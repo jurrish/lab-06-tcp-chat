@@ -1,7 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
-const lint = require('gulp-eslint');
+const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
 
 gulp.task('test', function() {
@@ -9,12 +9,15 @@ gulp.task('test', function() {
   .pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.task('lint', function() {
-  // run eslint
+gulp.task('lint', function(){
+  return gulp.src(['**/*.js','!node_modules/**'])
+  .pipe(eslint())
+  .pipe(eslint.format())
+  .pipe(eslint.failAfterError());
 });
 
 gulp.task('dev', function() {
-  // gulp watch files to test/lint
+  gulp.watch(['**/*.js', '!node_modules/**'], ['lint', 'mocha']);
 });
 
 gulp. task('default', ['dev']);
