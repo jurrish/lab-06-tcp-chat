@@ -8,12 +8,7 @@ let PORT = process.env.PORT || 3000;
 let users = [];
 let ee = new EE();
 
-let server = net.createServer(function(client) {
-  // console.log('client connected');
-  // client.on('end', function() {
-  //   console.log('client disconnected');
-  //   // console.log(this);
-  // });
+let server = net.createServer(function() {
 });
 
 
@@ -30,19 +25,17 @@ ee.on('/nick', function(user, string) { //works
   user.nickName = string.trim();
   console.log('new nick is ' + user.nickName);
 });
-//
-// ee.on('/dm', function(user, string) { //dm not working
-//   console.log('dm');
-//   let nickname = string.split(' ').shift().trim();
-//   console.log(nickname);
-//   let message = string.split(' ').slice(1).join(' ').trim();
-//   console.log(message);
-//   users.forEach(function(u) {
-//     if (u.nickName === nickname) {
-//       u.socket.write(user.nickName + ' : ' + message);
-//     }
-//   });
-// });
+
+ee.on('/dm', function(user, string) { //appears okay
+  console.log('dm');
+  let nickname = string.split(' ').shift().trim();
+  let message = string.split(' ').slice(1).join(' ').trim();
+  users.forEach(function(u) {
+    if (u.nickName === nickname) {
+      u.socket.write(user.nickName + ' : ' + message + '\n');
+    }
+  });
+});
 
 ee.on('default', function(user) { //works, should probably change though
   console.log('default event');
