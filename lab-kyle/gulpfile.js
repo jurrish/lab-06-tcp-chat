@@ -6,7 +6,7 @@ const mocha = require('gulp-mocha');
 
 gulp.task('test', function() {
   gulp.src('./test/test-server.js', {read: false})
-  .pipe(mocha({reporter: 'nyan'}));
+  .pipe(mocha());
 });
 
 gulp.task('lint', function(){

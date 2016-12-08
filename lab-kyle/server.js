@@ -14,7 +14,7 @@ const ee = new EE();
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ee.on('\\nick', function(client, string) {
   client.nickname = string.trim();
-  c.socket.write(`You changed your nickname to ${client.nickname}`)
+  client.socket.write(`You changed your nickname to ${client.nickname}`);
 });
 
 ee.on('\\dm', function(client, string) {
@@ -26,18 +26,22 @@ ee.on('\\dm', function(client, string) {
       c.socket.write(`${client.nickname}: ${message}`);
     }
   });
+  client.socket.write(`You private messaged ${nickname}: Hello`);
 });
 
 ee.on('\\all', function(client, string) {
   pool.forEach( c => {
-    c.socket.write(`${client.nickname}: ` + string);
+    if (c.nickname !== client.nickname) {
+      c.socket.write(`${client.nickname}: ${string}`);
+    }
   });
+  client.socket.write(`You messaged everyone: ${string}`);
 });
 
 ee.on('\\quit', function(client) {
   let i = pool.slice(pool.indexOf(client));
   pool[i].socket.end();
-  // if (i != -1) pool.splice(i, 1);
+  if (i != -1) pool.splice(i, 1);
   // let pool = pool.filter(clients => clients !== client);
   pool.forEach( c => {
     c.socket.write(`${client.nickname} has left the room.`);
@@ -62,6 +66,7 @@ server.on('connection', function(socket) {
     }
 
     ee.emit('default', client, data.toString());
+    return data;
   });
 
   socket.on('close', function(data) {
