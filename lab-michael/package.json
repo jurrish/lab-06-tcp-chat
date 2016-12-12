@@ -1,0 +1,19 @@
+{
+  "name": "lab06-tcp-chat",
+  "version": "1.0.0",
+  "description": "simple tcp chat client",
+  "main": "server.js",
+  "scripts": {
+    "test": "gulp",
+    "start": "node server.js"
+  },
+  "author": "Michael Bishop",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-mocha": "^3.0.1",
+    "mocha": "^3.2.0",
+    "node-uuid": "^1.4.7"
+  }
+}
