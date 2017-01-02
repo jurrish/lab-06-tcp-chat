@@ -1,0 +1,17 @@
+{
+  "name": "lab-jonathan",
+  "version": "1.0.0",
+  "description": "chat lab",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "Jonathan D",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "uuid": "^3.0.1"
+  }
+}

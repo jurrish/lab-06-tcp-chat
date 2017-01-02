@@ -1,0 +1,28 @@
+{
+  "name": "tcp-chat-trent",
+  "version": "1.0.0",
+  "description": "TCP chat server for 401.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/titandino/lab-06-tcp-chat.git"
+  },
+  "author": "Trenton Kress",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/titandino/lab-06-tcp-chat/issues"
+  },
+  "homepage": "https://github.com/titandino/lab-06-tcp-chat#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-mocha": "^3.0.1",
+    "mocha": "^3.1.2"
+  },
+  "dependencies": {
+    "uuid": "^3.0.1"
+  }
+}
